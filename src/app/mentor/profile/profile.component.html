@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="row col-sm-6" *ngIf="mentor">
+    <h3>Viewing Mentor Profile</h3>
+    <pre>Username: {{ mentor.username }}</pre>
+    <pre>Linkedin: {{ mentor.linkedin }}</pre>
+    <pre>Trainings Delivered: {{ mentor.trainingsDelivered }}</pre>
+    <pre>Fee: {{ mentor.fee }}</pre>
+  </div>
+  <div class="row col-sm-12">
+    <button class="btn btn-primary" (click)="backClicked()">Go back</button>
+  </div>
+</div>

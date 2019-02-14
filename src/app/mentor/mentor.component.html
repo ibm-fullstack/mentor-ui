@@ -1,0 +1,28 @@
+<div class="container">
+  <div *ngIf="message" class="alert alert-success alert-dismissible">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    {{message.message}}
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Skill</th>
+        <th>Status</th>
+        <th>Progress</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody *ngFor="let d of board">
+      <tr>
+        <td>{{ d.user.username }}</td>
+        <td>{{ d.skills.name }}</td>
+        <td>{{ d.status }}</td>
+        <td>{{ d.progress }}</td>
+        <td>
+          <div *ngIf="d.status == 'PROPOSED'"><button class="btn btn-primary" (click)="onConfirm(d.id, 'CONFIRMED')">Confirm</button></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
