@@ -14,6 +14,7 @@ export class LoginComponent implements OnInit {
   isLoggedIn = false;
   isLoginFailed = false;
   errorMessage = '';
+  username: string;
   roles: string[] = [];
   private loginInfo: AuthLoginInfo;
 
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
     if (this.tokenStorage.getToken()) {
       this.isLoggedIn = true;
       this.roles = this.tokenStorage.getAuthorities();
+      this.username = this.tokenStorage.getUsername();
     }
   }
 
@@ -37,6 +39,7 @@ export class LoginComponent implements OnInit {
       data => {
         this.tokenStorage.saveToken(data.accessToken);
         this.tokenStorage.saveUsername(data.username);
+        this.username = this.tokenStorage.getUsername();
         this.tokenStorage.saveAuthorities(data.authorities);
 
         this.isLoginFailed = false;

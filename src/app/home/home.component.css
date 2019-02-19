@@ -1,0 +1,13 @@
+th.mat-sort-header-sorted {
+  color: black;
+}
+
+.card {
+  max-width: 350px;
+}
+.mat-header-cell {
+  font-weight: 700;
+  font-family: Roboto,"Helvetica Neue",sans-serif;
+  font-size: 14px;
+  color: rgba(0,0,0,.87);
+}

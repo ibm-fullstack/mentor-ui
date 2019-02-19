@@ -1,9 +1,10 @@
+<ng-progress [color]="'white'" [showSpinner]="false" #progressBar (started)="onStarted()" (completed)="onCompleted()"></ng-progress>
 <div class="container">
   <div *ngIf="message" class="alert alert-success alert-dismissible">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     {{message.message}}
   </div>
-  <table class="table table-striped">
+  <!--<table class="table table-striped">
     <thead>
       <tr>
         <th>User</th>
@@ -13,16 +14,59 @@
         <th>Action</th>
       </tr>
     </thead>
-    <tbody *ngFor="let d of board">
-      <tr>
+    <tbody>
+      <tr *ngFor="let d of board">
         <td>{{ d.user.username }}</td>
         <td>{{ d.skills.name }}</td>
         <td>{{ d.status }}</td>
-        <td>{{ d.progress }}</td>
+        <td><ngb-progressbar [showValue]="true" type="info" [value]="d.progress"></ngb-progressbar></td>
         <td>
           <div *ngIf="d.status == 'PROPOSED'"><button class="btn btn-primary" (click)="onConfirm(d.id, 'CONFIRMED')">Confirm</button></div>
         </td>
       </tr>
     </tbody>
+  </table>-->
+  <div fxLayout fxLayoutAlign="right right" style="float: right;">
+    <mat-form-field fxFlex="40%">
+      <input matInput type="text" (keyup)="applyFilter($event.target.value)" placeholder="Filter by Status">
+      <div class="filterSelectContainer">
+        <mat-select placeholder="Filter" (selectionChange)="applyFilter($event.value)" [(value)]="selected">
+          <mat-option *ngFor="let x of trainingStatus" [value]="x">
+            {{x}}
+          </mat-option>
+        </mat-select>
+      </div>
+    </mat-form-field>
+  </div>
+  <table mat-table [dataSource]="mentorBoardInfoTableDataSource" class="mat-elevation-z8" matSort style="width: 100%">
+
+    <ng-container matColumnDef="user">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header><strong> User </strong></th>
+      <td mat-cell *matCellDef="let element"> {{ element.user }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="skill">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header><strong> Skill </strong></th>
+      <td mat-cell *matCellDef="let element"> {{element.skill}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header><strong> Status </strong></th>
+      <td mat-cell *matCellDef="let element"> {{element.status}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="progress">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header><strong> Progress </strong></th>
+      <td mat-cell *matCellDef="let element"> <ngb-progressbar [showValue]="true" type="info" [value]="element.progress"></ngb-progressbar> </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let element"> <div *ngIf="element.status == 'PROPOSED'"><button class="btn btn-primary" (click)="onConfirm(element.id, 'CONFIRMED')">Confirm</button> </div></td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
 </div>

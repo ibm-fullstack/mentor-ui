@@ -1,9 +1,10 @@
 <div *ngIf="isLoggedIn; else loggedOut">
-  Logged in as {{roles}}.
+  <h3>Welcome {{ username }}! </h3>
 </div>
 
 <ng-template #loggedOut>
   <div class="row col-sm-6" style="max-width:350px;">
+    <mat-card class="card">
     <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
       <div class="form-group">
         <label for="username">Username</label>
@@ -32,5 +33,6 @@
     <hr />
     <p>Don't have an account?</p>
     <a href="signup" class="btn btn-success">Sign Up</a>
+    </mat-card>
   </div>
 </ng-template>

@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth/auth.service';
 import { UserSignUpInfo } from '../auth/user-signup-info';
 
+import { NgProgress } from 'ngx-progressbar';
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -15,7 +17,7 @@ export class RegisterComponent implements OnInit {
   isSignUpFailed = false;
   errorMessage = '';
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, public ngProgress: NgProgress) { }
 
   ngOnInit() { }
 
@@ -28,8 +30,10 @@ export class RegisterComponent implements OnInit {
       this.form.email,
       this.form.password);
 
+    this.ngProgress.start();
     this.authService.userSignUp(this.signupInfo).subscribe(
       data => {
+        this.ngProgress.done();
         console.log(data);
         this.isSignedUp = true;
         this.isSignUpFailed = false;

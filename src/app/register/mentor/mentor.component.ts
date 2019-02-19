@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../auth/auth.service';
 import { MentorSignUpInfo } from '../../auth/mentor-signup-info';
+import { NgProgress } from 'ngx-progressbar';
 
 @Component({
   selector: 'app-mentor',
@@ -16,7 +17,7 @@ export class RegisterMentorComponent implements OnInit {
   isSignUpFailed = false;
   errorMessage = '';
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, public ngProgress: NgProgress) { }
 
   ngOnInit() { }
 
@@ -27,6 +28,8 @@ export class RegisterMentorComponent implements OnInit {
 
   onSubmit() {
     console.log(this.form);
+
+    // this.skillsList = $("input").tagsinput('items');
 
     const starttime = Number(this.form.starttime.replace(':', ''));
     const endtime = Number(this.form.endtime.replace(':', ''));
@@ -46,8 +49,10 @@ export class RegisterMentorComponent implements OnInit {
       this.skillsList
       );
 
+    this.ngProgress.start();
     this.authService.mentorSignUp(this.signupInfo).subscribe(
       data => {
+        this.ngProgress.done();
         console.log(data);
         this.isSignedUp = true;
         this.isSignUpFailed = false;

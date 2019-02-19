@@ -1,24 +1,36 @@
+<ng-progress [color]="'white'" [showSpinner]="false" #progressBar (started)="onStarted()" (completed)="onCompleted()"></ng-progress>
+
 <div class="container">
-  <form name="form" (ngSubmit)="onSearch()" novalidate>
-    <div class="form-group">
-      <label for="skill-search">Search for training</label>
-      <input type="text" class="form-control" style="max-width:312px" name="skillsearch" [(ngModel)]="form.skill" #skillsearch="ngModel" required />
-    </div>
-    <div class="form-group form-inline">
-      <label for="starttime">From</label>&nbsp;
-      <input type="time" class="form-control" name="starttime" [(ngModel)]="form.starttime" #starttime="ngModel" />&nbsp;
-      <label for="endtime">To</label>&nbsp;
-      <input type="time" class="form-control" name="endtime" [(ngModel)]="form.endtime" #endtime="ngModel" />
-    </div>
-    <div class="form-group">
-      <button class="btn btn-primary">Search</button>
-    </div>
-  </form>
+  <mat-card class="card">
+    <form name="form" (ngSubmit)="onSearch()" novalidate #f="ngForm">
+      <div class="form-group">
+        <label for="skill-search">Search for training</label>
+        <input type="text" class="form-control" style="max-width:312px" name="skillsearch" [(ngModel)]="form.skill" #skillsearch="ngModel" required />
+      </div>
+      <div class="form-group form-inline">
+        <label for="starttime">From</label>&nbsp;
+        <input type="time" class="form-control" name="starttime" [(ngModel)]="form.starttime" #starttime="ngModel" />&nbsp;
+        <label for="endtime">To</label>&nbsp;
+        <input type="time" class="form-control" name="endtime" [(ngModel)]="form.endtime" #endtime="ngModel" />
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary">Search</button>
+      </div>
+      <div *ngIf="f.submitted && searchData && searchData.length === 0; else displayData">
+        No trainings found.
+      </div>
+      <div *ngIf="f.submitted && searchFailed" class="alert alert-danger alert-dismissible">
+        <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+        Training search failed: {{errorMessage}}
+      </div>
+    </form>
+  </mat-card>
   <div *ngIf="pMessage" class="alert alert-success alert-dismissible">
     <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     {{pMessage.message}}
   </div>
-  <table class="table table-striped" *ngIf="searchData">
+  <br>
+  <!--<table class="table table-striped" *ngIf="searchData">
     <thead>
       <tr>
         <th>Mentor</th>
@@ -28,8 +40,8 @@
         <th>Action</th>
       </tr>
     </thead>
-    <tbody *ngFor="let d of searchData">
-      <tr>
+    <tbody>
+      <tr *ngFor="let d of searchData">
         <td><a *ngIf="info.token; else plain" [routerLink]="['/mentor/view', d.mentor.username]">{{ d.mentor.username }}</a><ng-template #plain>{{ d.mentor.username }}</ng-template></td>
         <td>{{ d.mentor.yearsExp }}</td>
         <td>{{ d.mentor.trainingsDelivered }}</td>
@@ -39,6 +51,38 @@
           </td>
       </tr>
     </tbody>
-  </table>
+  </table>-->
+  <div [hidden]="isLoading">
+    <table mat-table [dataSource]="mentorInfoTableDataSource" class="mat-elevation-z8" matSort style="width: 100%">
 
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><strong> Mentor </strong></th>
+        <td mat-cell *matCellDef="let element"> <a *ngIf="info.token; else plain" [routerLink]="['/mentor/view', element.username]">{{ element.username }}</a><ng-template #plain>{{ element.username }}</ng-template> </td>
+      </ng-container>
+
+      <ng-container matColumnDef="yearsExp">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><strong> Years of Experience </strong></th>
+        <td mat-cell *matCellDef="let element"> {{element.yearsExp}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="trainingsDelivered">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><strong> Trainings Delivered </strong></th>
+        <td mat-cell *matCellDef="let element"> {{element.trainingsDelivered}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="fee">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header><strong> Fee </strong></th>
+        <td mat-cell *matCellDef="let element"> ${{element.fee}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef> Action </th>
+        <td mat-cell *matCellDef="let element"><div *ngIf="info.token;"><button class="btn btn-primary" (click)="onPropose(element.userId, element.id, element.skillId)">Propose</button></div></td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+  </div>
 </div>

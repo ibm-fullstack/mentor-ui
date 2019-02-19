@@ -1,9 +1,12 @@
+<ng-progress [color]="'white'" [showSpinner]="false" #progressBar (started)="onStarted()" (completed)="onCompleted()"></ng-progress>
 <div *ngIf="isSignedUp; else signupForm">
   Your registration is successful. Please verify your account!
 </div>
 
 <ng-template #signupForm>
+
   <div class="row col-sm-6" style="max-width:350px;">
+    <mat-card class="card">
     <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
       <div class="form-group">
         <label for="name">Your name</label>
@@ -44,5 +47,6 @@
         </div>
       </div>
     </form>
+    </mat-card>
   </div>
 </ng-template>

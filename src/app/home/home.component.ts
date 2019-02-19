@@ -5,6 +5,9 @@ import { SearchInfo } from './search-info';
 import { TrainingInfo } from '../training/training-info';
 import { SkillsService } from '../services/skills.service';
 import { TrainingService } from '../services/training.service';
+import { NgProgress } from 'ngx-progressbar';
+import { Mentor } from "./mentor.model";
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +21,17 @@ export class HomeComponent implements OnInit {
   trainingInfo: TrainingInfo;
   searchData: any;
   pMessage: string;
+  errorMessage: string;
+  searchFailed = false;
+  displayedColumns: string[] = ['username', 'yearsExp', 'trainingsDelivered', 'fee', 'action'];
+  mentorInfoTable : Mentor[] = [];
+  mentorInfoTableDataSource: any;
+  isLoading = true;
 
-  constructor(private token: TokenStorageService, private skillsService: SkillsService, private trainingService: TrainingService) { }
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+
+  constructor(private token: TokenStorageService, private skillsService: SkillsService, private trainingService: TrainingService, public ngProgress: NgProgress) { }
 
   ngOnInit() {
     this.info = {
@@ -44,13 +56,28 @@ export class HomeComponent implements OnInit {
       starttime,
       endtime);
 
+    this.ngProgress.start();
     this.skillsService.searchSkill(this.searchInfo).subscribe(
       data => {
+        this.ngProgress.done();
         this.searchData = data;
-        console.log(data);
+        this.mentorInfoTable = [];
+        for (var i = 0; i < this.searchData.length; i++) {
+          this.mentorInfoTable[i] = this.searchData[i].mentor;
+          this.mentorInfoTable[i].skillId = this.searchData[i].skillId;
+          this.mentorInfoTable[i].userId = this.searchData[i].userId;
+        }
+        this.searchData.length > 0 ? this.isLoading = false : this.isLoading = true;
+        this.mentorInfoTableDataSource = new MatTableDataSource(this.mentorInfoTable);
+        this.mentorInfoTableDataSource.data = this.mentorInfoTable;
+
+        this.mentorInfoTableDataSource.paginator = this.paginator;
+        this.mentorInfoTableDataSource.sort = this.sort;
       },
       error => {
         console.log(error);
+        this.errorMessage = error.error.message;
+        this.searchFailed = true;
       }
     );
   }
@@ -61,19 +88,23 @@ export class HomeComponent implements OnInit {
       mentor,
       skill);
 
+    this.ngProgress.start();
     this.trainingService.propose(this.trainingInfo).subscribe(
       data => {
+        this.ngProgress.done();
         console.log(data);
         this.pMessage = data;
+
+        setTimeout(function() {
+          window.location.reload();
+        }, 2000);
       },
       error => {
         console.log(error);
+
+
       }
     );
-
-    setTimeout(function() {
-      window.location.reload();
-    }, 5000);
   }
 
   logout() {

@@ -16,9 +16,9 @@ export class SkillsService {
 
   constructor(private http: HttpClient) { }
 
-  searchSkill(info: SearchInfo): Observable<string> {
+  searchSkill(info: SearchInfo): Observable<object> {
     console.log(info);
-    return this.http.post<string>(this.searchUrl, info, httpOptions);
+    return this.http.post<object>(this.searchUrl, info, httpOptions);
   }
 
 }

@@ -1,18 +1,18 @@
+<ng-progress [color]="'white'" [showSpinner]="false" #progressBar (started)="onStarted()" (completed)="onCompleted()"></ng-progress>
 <div *ngIf="isSignedUp; else signupForm">
   Your registration is successful. Please verify your account!
 </div>
 
 <ng-template #signupForm>
-  <div class="row col-sm-6" style="max-width:350px;">
     <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
-      <div class="form-group">
+      <div class="form-group col-md-6">
         <label for="name">Your name</label>
-        <input type="text" class="form-control" name="name" [(ngModel)]="form.name" #name="ngModel" required />
+        <input type="text" class="form-control" name="name" [(ngModel)]="form.name" #name="ngModel" required style="width:350px;" />
         <div *ngIf="f.submitted && name.invalid">
           <div *ngIf="name.errors.required">Name is required</div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group col-md-6">
         <label for="username">Username</label>
         <input type="text" class="form-control" name="username" [(ngModel)]="form.username" #username="ngModel"
           required />
@@ -20,7 +20,7 @@
           <div *ngIf="username.errors.required">Username is required</div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group col-md-6">
         <label for="linkedin">LinkedIn</label>
         <input type="text" class="form-control" name="email" [(ngModel)]="form.email" #email="ngModel" required email />
         <div *ngIf="f.submitted && email.invalid">
@@ -28,7 +28,7 @@
           <div *ngIf="email.errors.email">Email must be a valid email address</div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group col-md-6">
         <label for="password">Password</label>
         <input type="password" class="form-control" name="password" [(ngModel)]="form.password" #password="ngModel"
           required minlength="6" />
@@ -37,46 +37,48 @@
           <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group col-md-12">
         <label for="years">Years of Experience</label>
         <input type="text" class="form-control" name="years" [(ngModel)]="form.years" #years="ngModel" required number />
         <div *ngIf="f.submitted && years.invalid">
           <div *ngIf="years.errors.required">Years of experience is required</div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group col-md-6">
         <label for="starttime">Work Start Time</label>
-        <input type="time" class="form-control" name="starttime" [(ngModel)]="form.starttime" #starttime="ngModel" required number />
+        <input type="time" class="form-control" name="starttime" [(ngModel)]="form.starttime" #starttime="ngModel" required number   />
         <div *ngIf="f.submitted && starttime.invalid">
           <div *ngIf="starttime.errors.required">Work Start Time is required</div>
         </div>
+      </div>
+      <div class="form-group col-md-6">
         <label for="endtime">Work End Time</label>
         <input type="time" class="form-control" name="endtime" [(ngModel)]="form.endtime" #endtime="ngModel" required number />
         <div *ngIf="f.submitted && endtime.invalid">
           <div *ngIf="endtime.errors.required">Work End Time is required</div>
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group col-md-12">
         <label for="years">Fee</label>
         <input type="number" class="form-control" name="fee" [(ngModel)]="form.fee" #fee="ngModel" required number />
         <div *ngIf="f.submitted && fee.invalid">
           <div *ngIf="fee.errors.required">Fee is required</div>
         </div>
       </div>
-      <div class="form-group">
-        <label for="skills">Skills</label>
+      <div class="form-group col-md-12">
+        <label for="skills">Skills</label><br>
+        <!--<input id="skillsInput" type="text" name="skills" class="form-control" data-role="tagsinput" style="width: 350px;"/>-->
         <input type="text" class="form-control" name="skills" [(ngModel)]="form.skill" #skill="ngModel" required /><br>
         <button type="button" class="btn btn-primary" (click)="onAddSkill()">Add Skill</button>
-        <ul class="list-group">
+        <ul class="list-group" style="width: 350px">
           <li class="list-group-item" *ngFor="let skill of skillsList">{{skill}}</li>
         </ul>
       </div>
-      <div class="form-group">
+      <div class="form-group col-md-12">
         <button class="btn btn-primary">Register</button>
         <div *ngIf="f.submitted && isSignUpFailed" class="alert alert-warning">
           Signup failed!<br/>{{errorMessage}}
         </div>
       </div>
     </form>
-  </div>
 </ng-template>
