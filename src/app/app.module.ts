@@ -29,6 +29,7 @@ import { MatSortModule } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StarRatingModule } from 'angular-star-rating';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatFormFieldModule,
     MatInputModule,
     MatRippleModule,
-    MatSelectModule
+    MatSelectModule,
+    StarRatingModule.forRoot()
   ],
   providers: [httpInterceptorProviders, { provide: BrowserXhr, useClass: NgProgressBrowserXhr }],
   bootstrap: [AppComponent]

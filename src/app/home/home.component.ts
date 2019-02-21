@@ -61,6 +61,7 @@ export class HomeComponent implements OnInit {
       data => {
         this.ngProgress.done();
         this.searchData = data;
+        console.log(data);
         this.mentorInfoTable = [];
         for (var i = 0; i < this.searchData.length; i++) {
           this.mentorInfoTable[i] = this.searchData[i].mentor;

@@ -19,13 +19,12 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
-              "src/assets"
+              "src/favicon.ico"
             ],
             "styles": [
               "src/styles.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "./node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css"
+              "./node_modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css",
             ],
             "scripts": [
               "./node_modules/hammerjs/hammer.min.js",

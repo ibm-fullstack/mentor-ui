@@ -29,19 +29,22 @@ export class UserComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.route.snapshot.params['id'];
-    console.log(this.trainingStatus);
     this.userService.getUserBoard(this.id).subscribe(
       data => {
         this.board = data;
+        console.log(data);
         this.userBoardInfoTable = [];
         for (var i = 0; i < this.board.length; i++) {
-          this.userBoardInfoTable[i] = this.board[i].mentor;
+          this.userBoardInfoTable.push(new UserBoardInfo());
           this.userBoardInfoTable[i].id = this.board[i].id;
           this.userBoardInfoTable[i].mentor = this.board[i].mentor.username;
+          this.userBoardInfoTable[i].mentorid = this.board[i].mentor.id;
           this.userBoardInfoTable[i].skill = this.board[i].skills.name;
           this.userBoardInfoTable[i].status = this.board[i].status;
           this.userBoardInfoTable[i].progress = this.board[i].progress;
+          this.userBoardInfoTable[i].rating = this.board[i].rating;
         }
+        console.log(this.userBoardInfoTable);
         this.userBoardInfoTableDataSource = new MatTableDataSource(this.userBoardInfoTable);
         this.userBoardInfoTableDataSource.data = this.userBoardInfoTable;
 
@@ -63,10 +66,6 @@ export class UserComponent implements OnInit {
   }
 
   onPay(id, tstatus) {
-    console.log('on Pay');
-    console.log('id: ' + id);
-    console.log('status: ' + tstatus);
-
     this.ngProgress.start();
     this.trainingService.updateStatus(id, tstatus).subscribe(
       data => {
@@ -77,6 +76,19 @@ export class UserComponent implements OnInit {
         setTimeout(function() {
           window.location.reload();
         }, 2000);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  onClick(event, id, mentorid){
+    this.ngProgress.start();
+    this.trainingService.updateRating(id, mentorid, event.rating).subscribe(
+      data => {
+        this.ngProgress.done();
+        console.log(data);
       },
       error => {
         console.log(error);

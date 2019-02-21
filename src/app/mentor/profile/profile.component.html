@@ -4,7 +4,8 @@
     <pre>Username: {{ mentor.username }}</pre>
     <pre>Linkedin: {{ mentor.linkedin }}</pre>
     <pre>Trainings Delivered: {{ mentor.trainingsDelivered }}</pre>
-    <pre>Fee: {{ mentor.fee }}</pre>
+    <pre><star-rating labelText="Rating:" [starType]="'svg'" [rating]="mentor.rating" staticColor="ok" [step]="0.5" [showHalfStars]="true" [readOnly]="true" id="profile-rating"></star-rating></pre>
+    <pre>Fee: ${{ mentor.fee }}</pre>
   </div>
   <div class="row col-sm-12">
     <button class="btn btn-primary" (click)="backClicked()">Go back</button>

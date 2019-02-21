@@ -14,6 +14,7 @@ export class TrainingService {
 
   private proposeUrl = 'http://localhost:8080/training/propose';
   private updateStatusUrl = 'http://localhost:8080/training/updatestatus';
+  private updateRatingUrl = 'http://localhost:8080/training/updaterating';
 
   constructor(private http: HttpClient) { }
 
@@ -27,5 +28,12 @@ export class TrainingService {
       id, status
     }
     return this.http.post<string>(this.updateStatusUrl, info, httpOptions);
+  }
+
+  updateRating(id: number, mentorId: number, rating: number): Observable<string> {
+    const info = {
+      id, mentorId, rating
+    }
+    return this.http.post<string>(this.updateRatingUrl, info, httpOptions);
   }
 }

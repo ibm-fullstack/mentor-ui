@@ -34,7 +34,7 @@ export class MentorComponent implements OnInit {
         this.board = data;
         this.mentorBoardInfoTable = [];
         for (var i = 0; i < this.board.length; i++) {
-          this.mentorBoardInfoTable[i] = this.board[i].user;
+          this.mentorBoardInfoTable.push(new MentorBoardInfo());
           this.mentorBoardInfoTable[i].id = this.board[i].id;
           this.mentorBoardInfoTable[i].user = this.board[i].user.username;
           this.mentorBoardInfoTable[i].skill = this.board[i].skills.name;
@@ -61,8 +61,8 @@ export class MentorComponent implements OnInit {
     this.mentorBoardInfoTableDataSource.filter = filterValue.trim();
   }
 
-  onConfirm(id, tstatus) {
-    console.log('on Confirm');
+  onStatusChange(id, tstatus) {
+    console.log('on Status Change');
     console.log('id: ' + id);
     console.log('status: ' + tstatus);
 

@@ -1,4 +1,4 @@
-export interface MentorBoardInfo {
+export class MentorBoardInfo {
    id: number;
    user: string;
    skill: string;

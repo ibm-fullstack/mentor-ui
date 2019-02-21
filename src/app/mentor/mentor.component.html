@@ -62,7 +62,7 @@
 
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> Action </th>
-      <td mat-cell *matCellDef="let element"> <div *ngIf="element.status == 'PROPOSED'"><button class="btn btn-primary" (click)="onConfirm(element.id, 'CONFIRMED')">Confirm</button> </div></td>
+      <td mat-cell *matCellDef="let element"> <div *ngIf="element.status == 'PROPOSED'"><button class="btn btn-primary" (click)="onStatusChange(element.id, 'CONFIRMED')">Confirm</button>&nbsp;<button class="btn btn-primary" (click)="onStatusChange(element.id, 'REJECTED')">Reject</button></div></td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
