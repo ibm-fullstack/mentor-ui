@@ -4,12 +4,14 @@
       <a class="navbar-brand" href="#">Mentor on Demand</a>
     </div>
     <ul class="nav navbar-nav" routerLinkActive="active">
-      <li class="nav-item"><a class="nav-link" routerLink="home">Home</a></li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="home">Home</a>
+      </li>
       <li *ngIf="authority === 'user'" class="nav-item">
         <a class="nav-link" *ngIf="user" routerLink="user/{{ user.id }}">User Trainings</a>
       </li>
       <li *ngIf="authority === 'admin'" class="nav-item">
-        <a class="nav-link" routerLink="admin">Admin Board</a>
+        <a class="nav-link" routerLink="admin">User List</a>
       </li>
       <li *ngIf="authority === 'mentor'" class="nav-item">
         <a class="nav-link" *ngIf="mentor" routerLink="mentor/{{ mentor.id }}">Mentor Trainings</a>

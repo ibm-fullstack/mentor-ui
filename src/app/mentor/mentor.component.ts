@@ -62,10 +62,6 @@ export class MentorComponent implements OnInit {
   }
 
   onStatusChange(id, tstatus) {
-    console.log('on Status Change');
-    console.log('id: ' + id);
-    console.log('status: ' + tstatus);
-
     this.ngProgress.start();
     this.trainingService.updateStatus(id, tstatus).subscribe(
       data => {

@@ -1,3 +1,34 @@
-<h4>Content from Server</h4>
-{{board}}
-{{errorMessage}}
+<ng-progress [color]="'white'" [showSpinner]="false" #progressBar (started)="onStarted()" (completed)="onCompleted()"></ng-progress>
+<div class="container">
+  <div *ngIf="message" class="alert alert-success alert-dismissible">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    {{message.message}}
+  </div>
+  <table mat-table [dataSource]="adminBoardInfoTableDataSource" class="mat-elevation-z8" matSort style="width: 100%">
+
+    <ng-container matColumnDef="user">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header><strong> Username </strong></th>
+      <td mat-cell *matCellDef="let element"> {{ element.user }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef> Action </th>
+      <td mat-cell *matCellDef="let element">
+        <div *ngIf="element.active">
+          <button class="btn btn-primary" (click)="onBlock(element.user)">
+            Block
+          </button>
+        </div>
+          &nbsp;
+        <div *ngIf="!element.active">
+          <button class="btn btn-primary" (click)="onUnblockUser(element.user)">
+            Unblock</button>
+        </div>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+</div>
