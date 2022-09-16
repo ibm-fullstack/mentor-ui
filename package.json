@@ -26,7 +26,7 @@
     "@ng-bootstrap/ng-bootstrap": "^4.0.3",
     "angular-loading-bar": "^0.9.0",
     "angular-star-rating": "^4.0.0-beta.3",
-    "bootstrap": "^3.4.0",
+    "bootstrap": "^3.4.1",
     "bootstrap-tagsinput": "^0.7.1",
     "core-js": "^2.5.4",
     "css-star-rating": "^1.2.4",
